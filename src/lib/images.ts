@@ -14,6 +14,7 @@ type ImageFile = SiteImage & { hash: string };
 
 const PUBLIC_DIR = path.join(process.cwd(), "public");
 const IMAGES_DIR = path.join(PUBLIC_DIR, "images");
+const TRIMMED_DIR = path.join(PUBLIC_DIR, "_trimmed");
 const SUPPORTED = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif"]);
 const SPECIAL = ["main-page", "main-page2"] as const;
 type SpecialName = (typeof SPECIAL)[number];
@@ -36,19 +37,35 @@ function listImageFiles(dir: string): string[] {
   }
 }
 
+/**
+ * Copy of the photo without black letterbox bars, made by scripts/prepare-photos.mjs.
+ * Ignored when missing or older than the original (e.g. a photo replaced while `next dev` runs).
+ */
+function trimmedCopy(dir: string, fileName: string): string | null {
+  const copy = path.join(TRIMMED_DIR, path.relative(PUBLIC_DIR, dir), fileName);
+  try {
+    return fs.statSync(copy).mtimeMs >= fs.statSync(path.join(dir, fileName)).mtimeMs ? copy : null;
+  } catch {
+    return null;
+  }
+}
+
 function readImage(dir: string, fileName: string): ImageFile | null {
   try {
-    const buffer = fs.readFileSync(path.join(dir, fileName));
-    const { width, height, orientation } = imageSize(buffer);
+    const original = fs.readFileSync(path.join(dir, fileName));
+    const copy = trimmedCopy(dir, fileName);
+    const shownDir = copy ? path.dirname(copy) : dir;
+    const { width, height, orientation } = imageSize(copy ? fs.readFileSync(copy) : original);
     if (!width || !height) return null;
     // EXIF orientations 5–8 mean the photo is displayed rotated by 90°.
     const rotated = orientation !== undefined && orientation >= 5 && orientation <= 8;
-    const urlDir = path.relative(PUBLIC_DIR, dir).split(path.sep).filter(Boolean).join("/");
+    const urlDir = path.relative(PUBLIC_DIR, shownDir).split(path.sep).filter(Boolean).join("/");
     return {
       src: `/${urlDir ? `${urlDir}/` : ""}${encodeURIComponent(fileName)}`,
       width: rotated ? height : width,
       height: rotated ? width : height,
-      hash: createHash("sha1").update(buffer).digest("hex"),
+      // Hash the original so byte-identical uploads are still detected as duplicates.
+      hash: createHash("sha1").update(original).digest("hex"),
     };
   } catch {
     // Unreadable or corrupt file — skip it instead of rendering a broken image.

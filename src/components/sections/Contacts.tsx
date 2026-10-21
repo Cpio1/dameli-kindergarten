@@ -29,7 +29,7 @@ export function Contacts() {
             <Sparkle className="h-3.5 w-3.5 text-lavender" />
             {c.eyebrow}
           </p>
-          <h2 className="mt-3 text-[1.9rem] leading-[1.12] font-semibold text-ink sm:text-[2.6rem] lg:text-5xl">{c.title}</h2>
+          <h2 className="mt-3 text-[1.75rem] leading-[1.12] font-semibold text-ink sm:text-[2.3rem] lg:text-[2.75rem]">{c.title}</h2>
           <p className="mt-4 text-[1.02rem] leading-relaxed text-ink-soft sm:text-lg">{c.text}</p>
         </Reveal>
 

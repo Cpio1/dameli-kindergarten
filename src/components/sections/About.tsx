@@ -7,6 +7,7 @@ import { VideoPlayer } from "../VideoPlayer";
 import { Petal, Sparkle, Squiggle } from "../decor/Decor";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import type { SiteImage, SiteVideo } from "@/lib/images";
+import { cn } from "@/lib/cn";
 
 type Props = { image: SiteImage | null; video: SiteVideo | null };
 
@@ -14,6 +15,9 @@ export function About({ image, video }: Props) {
   const { t } = useLanguage();
   const a = t.about;
   const pointColors = ["bg-lavender-soft", "bg-sage-soft", "bg-lilac-mist"];
+  // A photo keeps its own proportions (portraits are not squashed into a landscape box);
+  // a video or placeholder uses the classic frame.
+  const ratio = image && !video ? Math.min(Math.max(image.width / image.height, 0.72), 1.3) : null;
 
   const heading = (
     <>
@@ -21,7 +25,7 @@ export function About({ image, video }: Props) {
         <Sparkle className="h-3.5 w-3.5 text-lavender" />
         {a.eyebrow}
       </p>
-      <h2 className="mt-3 text-[1.9rem] leading-[1.12] font-semibold text-ink sm:text-[2.6rem] lg:text-5xl">{a.title}</h2>
+      <h2 className="mt-3 text-[1.75rem] leading-[1.12] font-semibold text-ink sm:text-[2.3rem] lg:text-[2.75rem]">{a.title}</h2>
     </>
   );
 
@@ -31,13 +35,26 @@ export function About({ image, video }: Props) {
         {/* mobile/tablet: heading comes first */}
         <Reveal className="lg:hidden">{heading}</Reveal>
 
-        <Reveal className="relative mx-auto w-full max-w-[32rem] lg:max-w-none" y={36}>
+        <Reveal
+          className={cn(
+            "relative mx-auto w-full",
+            ratio && ratio < 1 ? "max-w-[18.5rem] xs:max-w-[20.5rem] sm:max-w-[24rem] lg:max-w-[26rem]" : "max-w-[32rem] lg:max-w-none",
+          )}
+          y={36}
+        >
           <div className="absolute -top-5 -left-5 hidden h-[86%] w-[86%] rounded-[3rem] bg-sage-soft lg:block" />
           <Petal className="absolute -right-5 -bottom-6 hidden w-14 rotate-[18deg] animate-float text-lavender lg:block" />
           <Squiggle className="absolute -top-8 right-6 hidden w-28 text-sage-deep/60 lg:block" />
-          <div className="absolute -top-3 -right-2 h-16 w-16 rounded-full bg-lavender-soft lg:hidden" />
+          <div className="absolute -top-3 -right-3 h-14 w-14 rounded-full bg-lavender-soft lg:hidden" />
+          <Petal className="absolute -bottom-3 -left-3 z-10 w-7 -rotate-[20deg] text-sage lg:hidden" />
 
-          <div className="relative aspect-[4/3.4] overflow-hidden mask-wave-top lg:aspect-[4/4.6] lg:mask-wave-side">
+          <div
+            className={cn(
+              "relative overflow-hidden mask-wave-top lg:mask-wave-side",
+              ratio ? "aspect-[var(--ratio)]" : "aspect-[4/3.4] lg:aspect-[4/4.6]",
+            )}
+            style={ratio ? ({ "--ratio": ratio } as React.CSSProperties) : undefined}
+          >
             {video ? (
               <VideoPlayer video={video} label={a.videoLabel} labels={t.video} />
             ) : image ? (
@@ -45,7 +62,7 @@ export function About({ image, video }: Props) {
                 src={image.src}
                 alt={a.photoAlt}
                 fill
-                sizes="(min-width: 1024px) 42vw, (min-width: 640px) 32rem, 100vw"
+                sizes="(min-width: 1024px) 416px, (min-width: 640px) 24rem, 82vw"
                 className="object-cover object-[50%_35%]"
               />
             ) : (
