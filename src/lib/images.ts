@@ -168,3 +168,11 @@ export function getSpecialVideo(name: "main-page2"): SiteVideo | null {
   }
   return null;
 }
+
+/** Everything the page reads from public/images at build time, passed to both layouts. */
+export type SiteMedia = {
+  heroImage: SiteImage | null;
+  aboutImage: SiteImage | null;
+  aboutVideo: SiteVideo | null;
+  gallery: SiteImage[];
+};

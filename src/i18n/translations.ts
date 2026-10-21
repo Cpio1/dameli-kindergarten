@@ -12,7 +12,7 @@ type ClubKey = "english" | "dance" | "music" | "robotics";
 export type Dictionary = {
   meta: { title: string; description: string };
   langName: string;
-  nav: { home: string; about: string; clubs: string; gallery: string; contacts: string };
+  nav: { home: string; about: string; clubs: string; gallery: string; documents: string; contacts: string };
   header: {
     contact: string;
     openMenu: string;
@@ -26,6 +26,8 @@ export type Dictionary = {
     title: string;
     titleAccent: string;
     text: string;
+    /** Shorter description for the mobile hero. */
+    short: string;
     primary: string;
     secondary: string;
     photoAlt: string;
@@ -43,6 +45,8 @@ export type Dictionary = {
     eyebrow: string;
     title: string;
     paragraphs: string[];
+    more: string;
+    less: string;
     points: { value: string; label: string }[];
     photoAlt: string;
     videoLabel: string;
@@ -84,6 +88,14 @@ export type Dictionary = {
     };
     note: string;
   };
+  documents: {
+    eyebrow: string;
+    title: string;
+    text: string;
+    open: string;
+    note: string;
+    points: { place: string; online: string; mobile: string };
+  };
   contacts: {
     eyebrow: string;
     title: string;
@@ -114,7 +126,7 @@ const ru: Dictionary = {
       "Dameli MK — детский сад в Алматы (мкр. Жетысу-3) для детей от 2 до 6 лет. 4 группы, обучение на казахском и русском языках, 4-разовое питание, кружки: английский, хореография, музыка, робототехника.",
   },
   langName: "Русский",
-  nav: { home: "Главная", about: "О садике", clubs: "Кружки", gallery: "Галерея", contacts: "Контакты" },
+  nav: { home: "Главная", about: "О садике", clubs: "Кружки", gallery: "Галерея", documents: "Документы", contacts: "Контакты" },
   header: {
     contact: "Связаться",
     openMenu: "Открыть меню",
@@ -128,6 +140,7 @@ const ru: Dictionary = {
     title: "Место, где каждый день",
     titleAccent: "начинается с открытий",
     text: "Dameli MK — детский сад в Алматы для детей от 2 до 6 лет. Казахский и русский языки обучения, интересные занятия и новые открытия каждый день.",
+    short: "Детский сад для детей от 2 до 6 лет: казахский и русский языки, кружки и новые открытия каждый день.",
     primary: "Записаться на консультацию",
     secondary: "Узнать больше",
     photoAlt: "Дети в детском саду Dameli MK",
@@ -149,6 +162,8 @@ const ru: Dictionary = {
       "День ребёнка наполнен занятиями, играми и общением со сверстниками. Дополнительные кружки — английский язык, хореография, музыка и робототехника — помогают пробовать новое и находить любимые увлечения.",
       "Дети питаются 4 раза в день, а сад открыт с 08:00 до 18:30.",
     ],
+    more: "Читать полностью",
+    less: "Свернуть",
     points: [
       { value: "4", label: "группы" },
       { value: "2", label: "языка обучения" },
@@ -211,6 +226,14 @@ const ru: Dictionary = {
     },
     note: "Подробный распорядок дня уточняйте по телефону.",
   },
+  documents: {
+    eyebrow: "Документы",
+    title: "Документы детского сада",
+    text: "Официальные документы Dameli MK собраны в одной папке на Google Диске. Откройте её, чтобы ознакомиться с ними в любое удобное время.",
+    open: "Открыть документы",
+    note: "Папка откроется в Google Диске в новой вкладке.",
+    points: { place: "Всё в одном месте", online: "Доступно онлайн", mobile: "Удобно с телефона" },
+  },
   contacts: {
     eyebrow: "Контакты",
     title: "Приходите знакомиться!",
@@ -247,7 +270,7 @@ const kk: Dictionary = {
       "Dameli MK — Алматыдағы (Жетісу-3 ш/а) 2 жастан 6 жасқа дейінгі балаларға арналған балабақша. 4 топ, қазақ және орыс тілдерінде оқыту, 4 мезгіл тамақтану, үйірмелер: ағылшын тілі, хореография, музыка, робототехника.",
   },
   langName: "Қазақша",
-  nav: { home: "Басты бет", about: "Біз туралы", clubs: "Үйірмелер", gallery: "Галерея", contacts: "Байланыс" },
+  nav: { home: "Басты бет", about: "Біз туралы", clubs: "Үйірмелер", gallery: "Галерея", documents: "Құжаттар", contacts: "Байланыс" },
   header: {
     contact: "Байланысу",
     openMenu: "Мәзірді ашу",
@@ -261,6 +284,7 @@ const kk: Dictionary = {
     title: "Әр күні",
     titleAccent: "жаңалықтан басталатын орын",
     text: "Dameli MK — Алматыдағы 2 жастан 6 жасқа дейінгі балаларға арналған балабақша. Қазақ және орыс тілдерінде оқыту, қызықты сабақтар және күн сайын жаңа ашылулар.",
+    short: "2 жастан 6 жасқа дейінгі балаларға арналған балабақша: қазақ және орыс тілдері, үйірмелер және күн сайын жаңа ашылулар.",
     primary: "Кеңеске жазылу",
     secondary: "Толығырақ",
     photoAlt: "Dameli MK балабақшасындағы балалар",
@@ -282,6 +306,8 @@ const kk: Dictionary = {
       "Баланың күні сабақтарға, ойындарға және құрдастарымен араласуға толы. Қосымша үйірмелер — ағылшын тілі, хореография, музыка және робототехника — жаңа нәрсені байқап көруге және сүйікті ісін табуға көмектеседі.",
       "Балалар күніне 4 рет тамақтанады, балабақша 08:00-ден 18:30-ға дейін жұмыс істейді.",
     ],
+    more: "Толық оқу",
+    less: "Жасыру",
     points: [
       { value: "4", label: "топ" },
       { value: "2", label: "оқыту тілі" },
@@ -343,6 +369,14 @@ const kk: Dictionary = {
       meals: { label: "Тамақтану", value: "Күніне 4 рет" },
     },
     note: "Күн тәртібі туралы толығырақ телефон арқылы біліңіз.",
+  },
+  documents: {
+    eyebrow: "Құжаттар",
+    title: "Балабақша құжаттары",
+    text: "Dameli MK-ның ресми құжаттары Google Drive-тағы бір папкада жинақталған. Оларды кез келген ыңғайлы уақытта ашып, танысуға болады.",
+    open: "Құжаттарды ашу",
+    note: "Папка Google Drive-та жаңа бетте ашылады.",
+    points: { place: "Барлығы бір жерде", online: "Онлайн қолжетімді", mobile: "Телефоннан ыңғайлы" },
   },
   contacts: {
     eyebrow: "Байланыс",

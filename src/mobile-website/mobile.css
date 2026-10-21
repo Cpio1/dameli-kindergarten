@@ -1,0 +1,65 @@
+/*
+ * Mobile website — phones and tablets (< 1024 px). Designed for 320–430 px wide screens;
+ * on tablets the same composition is centred in a 40 rem column.
+ */
+
+@utility m-container {
+  width: 100%;
+  max-width: 40rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @media (min-width: 25rem) {
+    padding-inline: 1.25rem;
+  }
+}
+
+@utility m-section {
+  padding-block: 2.5rem;
+  @media (min-width: 25rem) {
+    padding-block: 2.875rem;
+  }
+}
+
+@utility m-h1 {
+  font-size: clamp(1.6rem, 1.1rem + 3.4vw, 2.2rem);
+  line-height: 1.1;
+}
+
+@utility m-h2 {
+  font-size: clamp(1.4rem, 1rem + 2.4vw, 1.85rem);
+  line-height: 1.15;
+}
+
+@layer components {
+  .mobile-root .btn {
+    min-height: 2.875rem;
+    padding: 0.7rem 1.2rem;
+    font-size: 0.95rem;
+  }
+}
+
+/*
+ * Mobile hero: a leaf-like pebble — gentle wave across the top, one generous rounded corner at
+ * the bottom left. Curves stay within the outer ~8 % so faces near the edges are kept.
+ */
+@utility mask-m-hero {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0 13C7 5 17 2 29 5s24 5 37 1 26-5 31 3c3 5 3 12 3 20v57c0 8-4 13-12 13H22C9 99 1 94 0 82z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0 13C7 5 17 2 29 5s24 5 37 1 26-5 31 3c3 5 3 12 3 20v57c0 8-4 13-12 13H22C9 99 1 94 0 82z'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+/* Mobile about: soft arch with a small wave on the bottom edge. */
+@utility mask-m-arch {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0 30C0 12 22 0 50 0s50 12 50 30v62c-9 6-19 7-28 3s-18-6-27-2-18 7-27 3S4 92 0 94z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0 30C0 12 22 0 50 0s50 12 50 30v62c-9 6-19 7-28 3s-18-6-27-2-18 7-27 3S4 92 0 94z'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+/* Fixed header is 3.5 rem tall. Mobile scrolling stays completely natural — no snapping. */
+@media (max-width: 63.999rem) {
+  html {
+    scroll-padding-top: 3.75rem;
+  }
+}

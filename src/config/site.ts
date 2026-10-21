@@ -29,6 +29,9 @@ export const site = {
   ages: { from: 2, to: 6 },
   meals: 4,
 
+  /** Shared Google Drive folder with the kindergarten's official documents. */
+  documentsUrl: "https://drive.google.com/drive/folders/1BQ8v-fGjW-Qn5UnDGnsnqNrVno4aaKGu",
+
   /**
    * 2GIS organization card. The exact point for «Жетысу-3, 58» could not be confirmed,
    * so the site links to an address search. When the card is known, set firmId and
@@ -75,5 +78,5 @@ export function twoGisWidgetUrl() {
   return `https://widgets.2gis.com/widget?type=firmsonmap&options=${encodeURIComponent(JSON.stringify(options))}`;
 }
 
-export const navIds = ["home", "about", "clubs", "gallery", "contacts"] as const;
+export const navIds = ["home", "about", "clubs", "gallery", "documents", "contacts"] as const;
 export type NavId = (typeof navIds)[number];

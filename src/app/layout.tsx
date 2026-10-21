@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Lora, Montserrat_Alternates, Nunito } from "next/font/google";
-import { Providers } from "@/components/Providers";
+import { Providers } from "@/shared/components/Providers";
 import { SITE_URL, site } from "@/config/site";
 import { dictionaries } from "@/i18n/translations";
 import "./globals.css";
